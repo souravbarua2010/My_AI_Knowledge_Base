@@ -63,3 +63,14 @@ Define a schema:
 Choose a cleaned/normalized set of node and relationship types based on what you saw.
 Second pass (with schema):
 Re-run with allowed_nodes, allowed_relationships, and optionally strict_mode=True
+
+2/ In the GraphRAG if I want to use ollama cloud model through ollama API.
+
+import os
+from langchain_ollama import ChatOllama
+llm = ChatOllama(
+    model="gemma2:cloud",
+    base_url="https://ollama.com",
+    headers={"Authorization": f"Bearer {os.getenv('OLLAMA_API_KEY')}"},
+)
+
