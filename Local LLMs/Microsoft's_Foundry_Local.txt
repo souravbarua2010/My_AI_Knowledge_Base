@@ -1,1 +1,137 @@
+What is Microsoft Foundry Local?
+
+Microsoft Foundry Local is an end-to-end, cross-platform solution that lets you run AI models entirely on your device—no cloud, no API keys, no per-token costs. It bundles a lightweight runtime, a curated catalog of optimized models, and SDKs (Python, JavaScript/TypeScript, C#/.NET, Rust) so you can ship on-device chat, transcription, embeddings, and more inside your app.
+Think of it as a production-grade alternative to Ollama: instead of managing a separate server/daemon, Foundry Local runs in-process as a native library and automatically picks the best model variant for your hardware (CPU/GPU/NPU) using ONNX Runtime and hardware-specific backends (e.g., CUDA, OpenVINO, QNN).
+
+How it helps you download and use LLMs locally (like Ollama)
+
+* One-line install: On Windows, install the CLI via winget install Microsoft.FoundryLocal, then the foundry command is available in your terminal.
+* Model catalog + auto-download: Foundry Local integrates with Microsoft’s Foundry Catalog. When your app (or CLI) requests a model (e.g., phi-4), it downloads an optimized, quantized version on first use and caches it locally for instant subsequent runs.
+* Hardware-aware selection: It intelligently selects the most performant variant for your device (Intel/AMD/NVIDIA/Qualcomm), leveraging GPU/NPU acceleration where available.
+* Offline, private inference: Once cached, models run with zero internet connectivity; prompts and data never leave the machine.
+* SDK-first integration: Add the SDK to your project and call a simple chat/completion API; Foundry Local handles loading, inference, streaming, and unloading.
+
+Python: pip install foundry-local-sdk
+JS/TS: npm install foundry-local-sdk
+.NET: dotnet add package Microsoft.AI.Foundry.Local
+Rust: cargo add foundry-local-sdk
+
+Typical CLI usage mirrors Ollama’s simplicity: after installing, you can run something like foundry model run phi-4 to start a local chat session; the model downloads automatically if not cached.
+
+Using Foundry Local in the Foundry Toolkit for VS Code :
+
+The Foundry Toolkit for Visual Studio Code (formerly “AI Toolkit”) consolidates Microsoft’s Foundry + local-AI tooling into one extension, and it explicitly supports local models via Foundry Local (alongside ONNX and Ollama).
+
+1) Install prerequisites
+Foundry Local runtime (CLI)
+On Windows, install via:
+winget install Microsoft.FoundryLocal
+
+This gives you the foundry command and the local inference backend the toolkit will talk to.
+
+Foundry Toolkit extension in VS Code
+In VS Code:
+
+Open Extensions (Ctrl+Shift+X)
+Search for “Foundry Toolkit” (publisher: Microsoft)
+Install Foundry Toolkit for Visual Studio Code
+
+Note: The older separate “Microsoft Foundry” extension has been merged into this single Foundry Toolkit extension.
+
+2) Enable Foundry Local inside the toolkit
+Once the extension is installed:
+
+Open the Azure / Foundry view in the Activity Bar (the Azure icon).
+
+Look for sections like Model Catalog, Playground, or Local Models.
+
+In the model sources/providers, you should see options for:
+Foundry (cloud)
+
+Local models via ONNX / Ollama / Foundry Local
+
+The toolkit detects the foundry CLI/runtime on your machine and uses it to:
+
+List available local models
+
+Download models from the Foundry catalog to your device
+
+Run inference locally through Foundry Local
+
+3) Download and run a local model
+From the Foundry Toolkit UI:
+
+Open Model Catalog in the extension.
+
+Filter or search for a model you want (e.g., a Phi variant or other Foundry-catalog model).
+
+Choose Download / Deploy locally (wording may vary).
+
+The extension will pull an optimized, quantized version via Foundry Local and cache it on disk.
+
+After download, go to My Resources / Local Models (or similar) in the extension.
+
+Select the model and click Run / Load / Open in Playground.
+
+This starts a local chat/completion session using Foundry Local as the backend.
+
+You can now:
+
+Chat with the model in the Playground tab
+
+Use it as the backend for agent templates and local agent runs
+
+Test prompts, view traces, and iterate without any cloud calls
+
+4) Using Foundry Local models in Copilot Chat (optional)
+Earlier versions allowed selecting Foundry Local models directly as GitHub Copilot Chat providers, but as of mid-2026 this integration was adjusted:
+
+Foundry Local models are no longer offered as GitHub Copilot Chat language model providers in some recent toolkit releases.
+
+They still work fully inside:
+
+Foundry Toolkit’s own Playground
+
+Agent Builder and local agent runs
+
+Any custom app you build using the Foundry Local SDKs
+
+If you specifically need Copilot Chat to use a local model, you may need to:
+
+Use another local server (e.g., Ollama/LM Studio) as the Copilot provider, or
+Rely on the Foundry Toolkit’s built-in playground/agent UI instead of Copilot Chat for local inference.
+
+5) Typical developer workflow
+A common pattern:
+
+Install: winget install Microsoft.FoundryLocal + Foundry Toolkit extension.
+
+Discover: Use the toolkit’s Model Catalog to browse Foundry + Hugging Face models.
+
+Download locally: One-click download via Foundry Local; models are cached on-device.
+
+Develop & test:
+
+Use the Playground for quick prompt experiments.
+
+Create agent projects from templates; run and debug them locally with Foundry Local as the inference engine.
+
+Deploy: When ready, deploy agents to Foundry Agent Service or your own backend, while keeping local testing fast and private.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
