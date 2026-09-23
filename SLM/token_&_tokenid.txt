@@ -1,1 +1,39 @@
+A token is a small piece of text. A token ID is the number assigned to that piece of text so the neural network can process it.
+
+The tokenizer produces both conceptually, but in your code you are directly storing the token IDs.
+
+Simple example
+Suppose the text is:
+Hello world!
+
+A tokenizer might split it into tokens like:
+["Hello", " world", "!"]
+The exact splitting depends on the tokenizer. A token can be:
+
+A complete word.
+Part of a word.
+A space plus a word.
+Punctuation.
+A single character.
+Tokens are not always the same as words.
+
+The tokenizer then looks up each token in its vocabulary:
+"Hello"  → 15496
+" world" → 995
+"!"      → 0
+
+The resulting token IDs are:
+[15496, 995, 0]
+
+1. Text becomes tokens
+text = "Hello world!"
+tokens = ["Hello", " world", "!"]
+This is the human-readable representation.
+
+2. Tokens become token IDs
+token_ids = [15496, 995, 0]
+These are integer indexes into the tokenizer's vocabulary.
+
+The model normally receives the IDs, not the text tokens. Hugging Face describes input_ids as the list of token IDs passed to the model.
+
 
