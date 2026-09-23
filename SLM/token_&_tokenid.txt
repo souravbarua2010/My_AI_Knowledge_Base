@@ -36,4 +36,50 @@ These are integer indexes into the tokenizer's vocabulary.
 
 The model normally receives the IDs, not the text tokens. Hugging Face describes input_ids as the list of token IDs passed to the model.
 
+Seeing both tokens and IDs:
+
+With tiktoken, you can inspect the IDs:
+
+import tiktoken
+
+enc = tiktoken.get_encoding("gpt2")
+
+text = "Hello world!"
+ids = enc.encode_ordinary(text)
+
+print(ids)
+
+To convert the IDs back into text:
+
+decoded_text = enc.decode(ids)
+print(decoded_text)
+
+gpt2 encoding does not provide the same simple token-display method as some Hugging Face tokenizers, but you can inspect each token by decoding the IDs individually:
+
+python
+for token_id in ids:
+    print(token_id, repr(enc.decode([token_id])))
+
+You may see output similar to:
+
+15496 'Hello'
+995 ' world'
+0 '!'
+
+Why does the model use IDs?
+Neural networks work with numbers, not words. The token ID is used as an index to retrieve a learned vector called an embedding.
+
+Conceptually:
+token ID 15496
+      ↓
+embedding vector
+      ↓
+neural network processing
+
+The ID itself does not contain meaning. It is simply an address or lookup number. The model learns useful relationships through the embedding associated with that ID.
+
+Therefore, for your language model:
+ids = enc.encode_ordinary(example["text"])
+
+creates the token IDs directly. The tokenizer internally splits the text into tokens first, converts those tokens into IDs, and returns the IDs to your program. This two-stage process—tokenization followed by conversion to input IDs—is the standard tokenizer workflow.
 
