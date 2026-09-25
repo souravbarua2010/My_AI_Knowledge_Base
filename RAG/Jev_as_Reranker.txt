@@ -1,1 +1,28 @@
+Jev (a "System One" decision model introduced by TypeSafe.AI in September 2026) offers a paradigm shift in Retrieval-Augmented Generation (RAG) reranking by introducing steerable, instruction-following behavior at a fraction of the cost and latency of LLMs.
+
+Unlike static traditional rerankers or slow, expensive LLM-based rerankers, Jev evaluates document-query pairs by using typed schema primitives like Choice, Score, or yes/no probabilities (Noul).
+
+Why Jev is Highly Useful in a Modern RAG Pipeline1. 
+
+1. Dynamic Steerability (Executable Policies)Traditional cross-encoders are frozen in time. If you want your RAG system to favor "authoritative legal sources" in one scenario and "fast technical workarounds" in another, a cross-encoder cannot differentiate them without being retrained. Jev allows developers to pass a criteria instruction alongside the query. It acts as a fluid, programmable policy wrapper that rearranges or weeds out documents on the fly.
+2. Massively Aggressive Relevance Filtering
+Instead of just reordering 20 documents and passing them all to the LLM—which clutters the context window and drives up token expenses—Jev is frequently deployed as a high-precision relevance filter. In open-source benchmarks (like jev-reranker), it successfully filtered out roughly 92% of irrelevant candidate documents while maintaining an exceptional nDCG@10 score of 0.975.
+3. Breaking the Concurrency Bottleneck
+When using a standard LLM to inspect individual search histories or document pairs sequentially, processing can take upwards of 40 seconds. Because Jev executes its structural primitives in parallel request pools, batch processing for the same chunk groups drops significantly (e.g., from 40 seconds down to roughly 7.6 seconds).
+4. Dual-Use as a Citation Checker & Search Guardrail
+In a RAG framework, Jev can be implemented natively alongside the main generation pipeline to perform multiple tasks at once. Developers use it not only to filter out noisy chunks before they reach the LLM, but also right after generation to serve as a citation validator—checking if the LLM's final response actually matches the retrieved evidence text.
+
+For a production RAG system, Jev should not be used to process a raw database corpus directly. The optimized approach is a three-stage pipeline:
+
+1. Use an affordable first-stage retriever (like vector similarity or BM25 hybrid search) to gather a wide pool of candidates.
+2. Pass that bounded shortlist to Jev to prune out the noise and rank by your customized behavioral instructions.
+3. Forward the highly dense, curated final context to your primary generator LLM
+
+
+
+
+
+
+
+
 
