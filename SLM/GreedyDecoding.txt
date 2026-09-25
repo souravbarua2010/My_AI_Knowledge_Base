@@ -1,1 +1,14 @@
+Greedy decoding is a straightforward text generation method where a large language model (LLM) always selects the single token with the highest probability at each step. It is deterministic, meaning the exact same input will always produce the exact same output, and it is fast because it does not require exploring multiple paths or running extra calculations.
 
+How Greedy Decoding Works :
+
+1. Input Processing: The model receives an initial prompt or sequence of text.
+2. Probability Calculation: The model outputs a probability distribution across its entire vocabulary for the next token.
+3. Token Selection: It picks the single token with the highest probability score.
+4. Autoregressive Loop: The selected token is appended to the input sequence, and the process repeats until a stop condition or token is reached.
+
+When to Use Greedy Decoding:
+
+1. Code Generation: Useful when exact syntax and precise keyword choices matter more than creative flair.
+2. Factual Q&A / Classification: Ideal when you want strict, direct, and consistent answers without random variation.
+3. Real-Time Systems: Helpful in low-latency environments where computation time must be minimal.
