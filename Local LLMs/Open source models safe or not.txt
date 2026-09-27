@@ -1,1 +1,17 @@
 
+Myth vs. Reality: Are Open Source/Weight Models "Always Safe"?
+It is a common misconception that open-source or open-weight Large Language Models (LLMs) are always safe by default. Releasing model weights publicly removes central control, which cuts both ways:
+ * Why they are safer (Transparency & Auditing): Independent researchers can audit the training process, inspect code for backdoors, test for safety flaws, and run models locally without sending private data to a third-party server.
+ * Why they are NOT inherently safe (Lack of Guardrails): Once weights are open, anyone can strip away safety filters, fine-tune the model to bypass safety alignments, or exploit hallucinations.
+When AI models—especially autonomous agents—run locally with human-level shell privileges, a hallucinated command or prompt injection can damage system files or leak sensitive credentials.
+How the Open-Source "Nono" Sandbox Helps
+Because models themselves cannot be guaranteed to behave safely, security must be enforced at the OS level. Nono is an open-source, capability-based security runtime designed specifically to isolate AI agents and CLI tools.
+Instead of relying on heavy virtual machines (VMs) or trusting the model's internal guardrails, Nono wraps AI agents in a zero-latency kernel-level sandbox.
+Key Safety Features of Nono:
+| Feature | How It Secures Open LLM Workflows |
+|---|---|
+| Kernel-Level Enforcement | Uses native OS primitives (Landlock on Linux, Seatbelt on macOS). Once the sandbox is applied, neither the AI nor a spawned subprocess can escape or bypass it. |
+| Protected Sensitive Paths | Automatically hides critical assets (e.g., ~/.ssh/, AWS config files, system directories) from the agent by default. |
+| "Phantom" Tokens | Instead of giving agents live API keys, Nono hands them dummy tokens. Requests pass through an external trusted proxy that injects real secrets only for approved destinations. |
+| Network & Command Blocking | Blocks destructive syscalls (like file truncations or unauthorized rm actions) and restricts network egress exclusively to required endpoints. |
+By deploying open-weight models inside tools like Nono, you achieve a practical balance: the flexibility and privacy of open models combined with deterministic, kernel-enforced safety that prevents an AI agent from compromising host infrastructure.
