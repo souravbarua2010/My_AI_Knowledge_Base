@@ -1,1 +1,15 @@
+Fine-tuning a reranker—typically a Cross-Encoder—with sentence-transformers drastically improves RAG accuracy by re-scoring candidate chunks using joint query-document token interactions rather than isolated vector embeddings.
+Key Workflow
+ * Prepare Data with Hard Negatives: Create dataset triples of (Query, Positive Doc, Hard Negative Doc). Hard negatives (retrieved via BM25/vector search that lack the answer) force the model to learn fine-grained discrimination.
+ * Initialize Cross-Encoder:
+   from sentence_transformers import CrossEncoder
+
+model = CrossEncoder("BAAI/bge-reranker-base", num_labels=1)
+
+ * Train: Use CrossEncoderTrainer with BCEWithLogitsLoss() (or margin MSE for teacher distillation) to classify pair relevance.
+ * Evaluate: Assess ranking performance using NDCG@K or MRR via CERerankingEvaluator.
+Role in RAG Pipeline
+ * First-stage retrieval: Retrieve top K (e.g., 50–100) candidates fast using bi-encoders / hybrid search.
+ * Second-stage reranking: Score all K pairs through the fine-tuned CrossEncoder and send only the top N (e.g., 3–5) precise chunks to the LLM.
+Bottom line: Domain fine-tuning removes topically related "noise" from vector search, ensuring higher LLM precision and fewer hallucinations.
 
