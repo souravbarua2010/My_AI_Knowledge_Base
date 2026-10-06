@@ -118,6 +118,15 @@ Create agent projects from templates; run and debug them locally with Foundry Lo
 
 Deploy: When ready, deploy agents to Foundry Agent Service or your own backend, while keeping local testing fast and private.
 
+Foundry CLI commands:
+1. foundry - - help
+2. foundry model list
+3. foundry model download phi-4-mini
+4. foundry server start
+5. foundry server status
+6. foundry model load phi-4-mini
+7. foundry server stop
+
 
 
 
