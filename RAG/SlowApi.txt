@@ -1,1 +1,33 @@
+https://pypi.org/project/slowapi/
 
+A rate limiting library for Starlette and FastAPI adapted from flask-limiter.
+
+This package is used in various production setups, handling millions of requests per month, and seems to behave as expected. There might be some API changes when changing the code to be fully async, but we will notify users via appropriate semver version changes.
+
+Quick start
+Installation
+slowapi is available from pypi so you can install it as usual:
+
+$ pip install slowapi
+Features
+Most feature are coming from FlaskLimiter and the underlying limits.
+
+Supported now:
+
+Single and multiple limit decorator on endpoint functions to apply limits
+redis, memcached and memory backends to track your limits (memory as a fallback)
+support for sync and async HTTP endpoints
+Support for shared limits across a set of routes
+The library aims to support all currently supported versions of python
+
+Limitations and known issues
+The request argument must be explicitly passed to your endpoint, or slowapi won't be able to hook into it. In other words, write:
+    @limiter.limit("5/minute")
+    async def myendpoint(request: Request)
+        pass
+and not:
+
+    @limiter.limit("5/minute")
+    async def myendpoint()
+        pass
+websocket endpoints are not supported yet.
