@@ -1,1 +1,3 @@
+https://www.kaggle.com/datasets/devtry3d/support-ticket-classification
 
+https://www.kaggle.com/datasets/rtatman/english-word-frequency
