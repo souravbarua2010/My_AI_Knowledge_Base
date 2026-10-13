@@ -1,1 +1,29 @@
+Per-client limits solve only part of the problem. Imagine that 100 valid clients are each allowed to send ten requests per minute:
 
+100 clients
+     ×
+10 requests / minute
+     =
+1000 requests / minute
+
+Every individual client may remain within its limit while the total workload still exceeds the capacity of the RAG service.
+
+A production architecture may therefore use multiple layers:
+
+Incoming Traffic
+       │
+       ▼
+Global Infrastructure Limit
+       │
+       ▼
+Per-Client Rate Limit
+       │
+       ▼
+Concurrency Control
+       │
+       ▼
+RAG API
+       │
+       ▼
+LLM Provider Limits
+The application-level limiter is only one component of the overall traffic-control strategy.
