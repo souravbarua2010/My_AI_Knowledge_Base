@@ -1,1 +1,17 @@
+A rate limit controls how many requests are accepted during a period of time:
 
+10 requests / minute
+A concurrency limit controls how many expensive requests can execute simultaneously:
+
+Maximum 4 active RAG requests
+
+This distinction matters because RAG requests can have relatively long response times. A client could remain within a per-minute limit while several expensive LLM requests are executing at the same time.
+
+Request 1 ───────────────►
+Request 2 ───────────────►
+Request 3 ───────────────►
+Request 4 ───────────────►
+Request 5 ───────────────►
+
+        Same Time Window
+For high-traffic deployments, both rate and concurrency controls may be necessary.
