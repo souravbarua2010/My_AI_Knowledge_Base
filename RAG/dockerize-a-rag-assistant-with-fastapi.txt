@@ -1,1 +1,32 @@
+https://mindforgecore.com/dockerize-a-rag-assistant-with-fastapi/
 
+Client Application
+        │
+        ▼
+   HTTP Request
+        │
+        ▼
+┌───────────────────────────┐
+│     Docker Container      │
+│                           │
+│        FastAPI            │
+│           │               │
+│           ▼               │
+│      RAG Pipeline         │
+│           │               │
+│           ▼               │
+│   Metadata Filtering      │
+│           │               │
+│           ▼               │
+│    BM25 + FAISS Search    │
+│           │               │
+│           ▼               │
+│       Reranking           │
+│           │               │
+│           ▼               │
+│          LLM              │
+│                           │
+└─────────────┬─────────────┘
+              │
+              ▼
+        JSON Response
