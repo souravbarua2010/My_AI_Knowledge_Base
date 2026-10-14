@@ -1,1 +1,36 @@
-
+Client
+   │
+   ▼
+HTTPS
+   │
+   ▼
+FastAPI
+   │
+   ▼
+API Key Authentication
+   │
+   ├── Invalid ─────────► 401
+   │
+   ▼
+Rate Limiting
+   │
+   ├── Exceeded ────────► 429
+   │
+   ▼
+Request Validation
+   │
+   ├── Invalid ─────────► 422
+   │
+   ▼
+RAG Pipeline
+   │
+   ├── Metadata Filtering
+   ├── BM25 + FAISS
+   ├── Reranking
+   └── Context Construction
+   │
+   ▼
+LLM
+   │
+   ▼
+JSON Response
