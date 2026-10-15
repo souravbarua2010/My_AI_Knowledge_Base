@@ -117,6 +117,20 @@ It helps teams manage, reuse, and serve features consistently across pipelines a
 
 💡 The main benefit is reliability — the same features are used everywhere.
 
+Model training is the offline phase where a machine learning model is built and optimized using historical data, whereas inference is the live production phase where the finalized model processes new, incoming data to generate active predictions.
+
+
+Key Differences Based on the Context
+
+• Model Training Phase:
+	• Goal: Teaching the model by processing large datasets to discover patterns.
+	• Data Environment: Typically handles static, historical data in batch format.
+	• Feature Engineering: Focused on generating features that match the training data timeline.
+• Inference Phase:
+	• Goal: Using the already trained model to output predictions for a user or system.
+	• Data Environment: Operates in a live production environment dealing with real-time or new incoming data points.
+	• Feature Engineering: Requires low-latency transformations to process live data immediately before feeding it to the model.
+
 👉 If you want scalable and production-ready ML systems, using a feature store is a big step forward.
 
 
