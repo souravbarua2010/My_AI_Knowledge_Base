@@ -2,7 +2,15 @@ https://mindforgecore.com/feature-store-machine-learning/
 https://feast.dev/ -- Feast is an open source feature store that delivers structured data to AI and LLM applications at high scale during training and inference
 Feast, Tecton, and Hopsworks feature stores
 
-How Feature Stores Work in Machine Learning
+Snowflake Feature Store :
+https://docs.snowflake.com/en/developer-guide/snowflake-ml/feature-store/overview
+The Snowflake Feature Store is designed to make creating, storing, and managing features for data science and machine learning workloads easier and more efficient. Hosted natively inside Snowflake, the Snowflake Feature Store provides the following advantages:
+
+Your data remains secure, completely under your control and governance, and never leaves Snowflake.
+The Snowsight Feature Store UI makes it easy to search for and discover features.
+Access is managed with fine-grained role-based access control.
+
+Q/ How Feature Stores Work in Machine Learning
 A feature store in machine learning is a system used to store, manage, and serve features for models.
 
 In real-world ML systems, features are created once and reused across different models and pipelines.
