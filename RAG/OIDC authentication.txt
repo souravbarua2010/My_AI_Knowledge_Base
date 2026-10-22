@@ -1,1 +1,51 @@
+https://medium.com/@dmosyan/openid-connect-oidc-explained-b7a368c90168
+
+Overview
+OpenID Connect (OIDC) is an identity authentication protocol that is an extension of open authorization (OAuth) 2.0 to standardize the process for authenticating and authorizing users when they sign in. OIDC provides authentication, which means verifying that users are who they say they are. OAuth 2.0 authorizes which systems those users are allowed to access. OAuth 2.0 is typically used to enable two unrelated applications to share information without compromising user data. For example, many people use their email or social media accounts to sign in to a third-party site rather than creating a new username and password. OIDC is also used to provide single sign-on.
+
+Key components of OIDC
+There are six primary components in OIDC:
+
+Authentication is the process of verifying that the user is who they say they are.
+A client is software, such as a website or application, that requests tokens that are used to authenticate a user or access a resource.
+Relying parties are the applications that use OpenID providers to authenticate users.
+Identity tokens contain identity data including the outcome of the authentication process, an identifier for the user, and information about how and when the user is authenticated.
+OpenID providers are the applications for which a user already has an account. Their role in OIDC is to authenticate the user and pass that information on to the relying party.
+Users are people or services that seek to access an application without creating a new account or providing a username and password.
+How does it work?
+OIDC authentication works by allowing users to sign in to one application and receive access to another. For example, if a user wants to create an account at a news site, they may have an option to use Facebook to create their account rather than creating a new account. If they choose Facebook, they are using OIDC authentication. Facebook, which is referred to as the OpenID provider, handles the authentication process and obtains the user’s consent to provide specific information, such as a user profile, to the news site, which is the relying party.
+
+The OpenID provider uses ID tokens to transmit authentication results and any pertinent information to the relying party. Examples of the type of data that are sent include an ID, email address, and name
+
+Scopes define what the user can do with their access. OIDC provides standard scopes, which define things such as which relying party the token was generated for, when the token was generated, when the token will expire, and the encryption strength used to authenticate the user.
+
+A typical OIDC authentication process includes the following steps:
+
+A user goes to the application they wish to access (the relying party).
+The user types in their username and password.
+The relying party sends a request to the OpenID provider.
+The OpenID provider validates the user’s credentials and obtains authorization.
+The OpenID provider sends an identity token and often an access token to the relying party.
+The relying party sends the access token to the user’s device.
+The user is given access based on the information provided in the access token and relying party.
+
+What are OIDC flows?
+OIDC flows define how tokens are requested and delivered to the relying party. A few examples:
+
+OIDC authorization flows: The OpenID provider sends a unique code to the relying party. The relying party then sends the unique code back to the OpenID provider in exchange for the token. This method is used so that the OpenID provider can verify the relying party before sending the token. The browser can’t see the token in this method, which helps keep it secure.
+OIDC authorization flows with PKCE extension: This flow is the same as the OIDC authorization flow, except that it uses a public key for code exchange (PKCE) extension to send communications as a hash. This reduces the chances that the token will be intercepted.
+Client credentials: This flow provides access to web APIs by using the identity of the application itself. It’s typically used for server-to-server communication and automated scripts requiring no user interaction.
+Device code: This flow allows users to sign in and access web-based APIs on internet-connected devices that do not have browsers or have a poor keyboard experience, such as a smart TV.
+Additional flows, such as the OIDC implicit flow, which is designed for browser-based applications, are not recommended because they are a security risk.
+
+OIDC vs. OAuth 2.0
+OIDC was built on top of OAuth 2.0 to add authentication. The OAuth 2.0 protocol was developed first and then OIDC was added to enhance its capabilities. The difference between the two is that OAuth 2.0 provides authorization, while OIDC provides authentication. OAuth 2.0 is what allows users to gain access to a relying party, using their account with an OpenID provider, and OIDC is what allows the OpenID provider to pass along a user profile to the relying party. OIDC also allows organizations to offer their users single sign-on.
+
+OIDC examples and use cases
+Many organizations use OIDC to enable secure authentication across web and mobile apps. Here are a few examples:
+
+When a user signs up for a Spotify account, they are offered three choices: Sign up with Facebook, Sign up with Google, Sign up with your email address. Users who choose to sign up with Facebook or Google are using OIDC to create an account. They will be redirected to whichever OpenID provider they selected (either Google or Facebook) and then once they’ve signed in, the OpenID provider will send Spotify basic profile details. The user doesn’t have to create a new account for Spotify and their passwords remain protected.
+LinkedIn also provides a way for users to create an account using their Google account rather than creating a separate account for LinkedIn.
+A company wishes to provide single sign-on to employees that need to access Microsoft Office 365, Salesforce, Box, and Workday to do their job. Rather than requiring employees to create a separate account for each of those apps, the company uses OIDC to provide access to all four. Employees creates one account and each time they sign in, they get access to all the apps they need for work.
+
 
