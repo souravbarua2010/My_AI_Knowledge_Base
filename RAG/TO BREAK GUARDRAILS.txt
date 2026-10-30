@@ -1,0 +1,77 @@
+TO BREAK GUARDRAILS:
+
+1/  Token Manipulation & Obfuscation: Attackers bypass string-matching and keyword-based guardrails by hiding prohibited terms using encoding techniques (such as Base64, Hex, or binary), inserting zero-width spaces, or using alternative alphabets (Leet-speak or Cyrillic homoglyphs) that human operators can read but basic filters fail to decode.
+
+2/ Contextual Overloading (Token Smuggling): Since validation pipelines often have memory or computational constraints, attackers might prefix a malicious payload with thousands of tokens of harmless filler text, aiming to push the exploit beyond the guardrail scanner's maximum window size while keeping it within the LLM's larger context window.
+
+3/ Linguistic Mapping & Structural Shifts: Adversaries bypass hardcoded regex checks by continuously altering sentence structures, using passive voice, or framing prohibited actions as historical analysis, creative writing, or theoretical scenarios (e.g., "Write a fictional story about a character bypassing an application rule").
+
+4/ Multi-Turn Jailbreaks: Instead of injecting a malicious prompt in a single turn, testers use a series of progressive, seemingly innocent questions to slowly shift the model's behavioral context over time, guiding the agent into an unrestricted state after the initial input guardrails have already processed the payload.
+
+5/ Exploiting Multi-Modal Alignments: If a chat application accepts attachments, images, or audio transcripts alongside text input, attackers can hide system instructions inside an image (OCR text) or embedded metadata, exploiting the fact that input guardrails might only scan the raw text field.
+
+6/ Recursive Prompt Redirection: Testers draft prompts that trick the model into interpreting its internal operating instructions or system variables as variable data that needs translation, summary, or formatting, turning the model's own generation capabilities into a mechanism to leak protected configurations.
+
+
+SSRF (Server-Side Request Forgery) Defense in the context of AI guardrails refers to the security mechanisms designed to stop an LLM agent from being manipulated into triggering unauthorized, unsafe outbound network calls.
+In modern application environments, this issue typically manifests as a "Tool-Call or Excessive Agency" vulnerability. If an AI chatbot is given a tool to fetch internet resources (like a scrape_url or http_get function), a user could trick the model into executing requests against the server's own internal private network.
+
+
+How SSRF Protection Works in Guardrails
+
+• Pre-Guardrail Tool Parameter Inspection: When an LLM decides to call an external API or URL scraping tool, the runtime guardrail platform intercepts the arguments before the tool actually fires.
+• Signature Checking & Vector Matching: The parameter scanner tests the destination string against classic CWE-918 patterns, blocklists, and protocol boundaries.
+• Forced Execution Short-Circuiting: If a validation rule fails (e.g., an unauthorized internal address is detected), the guardrail cancels the task pipeline and forces the AI agent to return a safe fallback message without hitting the network layer.
+
+
+Core Areas of Protection
+
+• Blocking Local Loopbacks: Preventing requests targeting localhost, 127.0.0.1, or local network adapters, which could expose underlying backend services running on the machine.
+• Cloud Metadata Endpoint Filtering: Blocking requests directed to link-local cloud metadata IP addresses (such as AWS/Azure's 169.254.169.254), which could leak temporary cloud access credentials or instance details.
+• Private Network Range Restrictions (RFC 1918): Restricting requests targeting private subnet ranges (e.g., 10.0.0.0/8, 172.16.0.0/12, 192.168.0.0/16) to isolate internal corporate infrastructure from the public-facing agent.
+• Protocol Scheme Allowlists: Ensuring the tool only accepts explicitly permitted schemas (like https://), while completely restricting access to dangerous system protocols such as file://, gopher://, or ftp://.
+• Enforcing Strict Domain Allowlists: Restricting tool targets to an authorized list of public third-party APIs or websites required for business operations.
+
+https://portswigger.net/web-security/ssrf
+
+https://github.com/NVIDIA-NeMo/Guardrails
+
+****** Out of scope question if asked in the chatbot then answer from bot - I appreciate the question, but it’s outside my scope—I’m specifically designed to help with LangChain, LangGraph, LangSmith, and Deep Agents documentation and concepts. If you’d like, I can help explain how components like LLMGraphTransformer work within LangChain and how gradient-based learning might relate at a high level to the models you plug in.
+
+I can’t help with finding or sharing a CEO’s personal phone number—that’s sensitive personal data and outside my scope. I’m designed to help with LangChain, LangGraph, LangSmith, and Deep Agents topics, so feel free to ask anything related to those.
+
+
+https://medium.com/bigdatarepublic/building-safer-ai-chatbots-a-practical-guide-to-llm-guardrails-using-nemo-b6f9c8c4c216  --- chatbots guardrails
+
+
+what is RBAC (ToolPermissionValidator) in guardrails?
+
+RBAC (Role-Based Access Control) ToolPermissionValidator is an application security design pattern used in AI guardrail architectures to control which tools, APIs, or system functions an LLM agent is allowed to execute based on the current user's authenticated identity and role.
+When you give an LLM agent access to tools (like DeleteUserAccount, GenerateInvoice, or ViewSystemMetrics), the LLM itself does not understand permission models. If a low-privileged user commands a chatbot to "Delete all user accounts," the LLM might willingly decide to invoke the DeleteUserAccount tool.
+The ToolPermissionValidator acts as a security enforcement layer that intercepts the LLM's intent before any code runs, verifying that the user actually has the authority to use that tool.
+
+
+How ToolPermissionValidator Works
+
+1. Intent Interception: The LLM receives the user prompt and outputs a "Tool Call" request structure containing the function name and arguments.
+2. Context Enrichment: The application extracts the current user's security token (like claims from a JWT or ASP.NET Core HttpContext.User) and passes it alongside the tool payload into the Guardrails engine.
+3. Role Validation: The ToolPermissionValidator maps the requested tool name against a registry of required permissions or roles.
+4. Short-Circuit / Execution Block:
+	• If Authorized: The tool executes normally and the output goes back to the LLM.
+	• If Unauthorized: The guardrail blocks the tool call immediately, logs a security alert, and passes a fallback message (e.g., "Error: Access Denied") back to the LLM so it can inform the user.
+
+
+SQL & Code Injection Detection in guardrails is an active security scanner designed to intercept text payloads (both user inputs and model outputs) and block hidden code scripts or database queries before they reach your infrastructure or execution sandbox.
+
+When an LLM chatbot interacts with dynamic backend systems, it faces a two-sided threat:
+1. Inbound Injection: An attacker uses the chat input box to smuggle database commands (like ' OR '1'='1) or application scripts, hoping the system blindly appends them into an internal database query or server command.
+2. Outbound Code Generation Risks: In a tool-enabled chatbot environment (like an agent with access to a Python scratchpad or computing engine), a user can manipulate the LLM into generating and executing malicious code commands on the server hosting the application.
+An injection guardrail scans string streams using deterministic signature matrices, heuristics, and taint analysis to neutralize these threats in real-time.
+
+Core Areas of Protection
+
+• SQL Injection (SQLi) Identification: Detects malicious SQL syntax variations—such as statement stacking (SELECT ...; DROP TABLE ...), tautologies (OR 1=1), and union-based mapping combinations—to ensure string fields don't subvert your data store.
+• Remote Code Execution (RCE) Blocks: Screens out system command invocations, terminal spawns, and operating system subversions (like bash -i >& /dev/tcp/... or Process.Start("cmd.exe")) trying to breach your system host.
+• Cross-Site Scripting (XSS) Sanitization: Scans inputs and outputs for embedded Javascript syntax loops (such as <script>alert(1)</script> or inline onload hooks) that could run maliciously on your users' client web browsers.
+• Dynamic Language Reflection Blocks: Intercepts runtime script evaluation requests—such as Python's eval(), exec(), or C#'s Roslyn script compilation API elements—to enforce boundaries on runtime calculation layers.
+
