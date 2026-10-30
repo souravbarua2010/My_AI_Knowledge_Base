@@ -1,0 +1,167 @@
+Agents
+
+https://bonanipaulchaudhury.medium.com/building-an-intelligent-microsoft-learn-chatbot-with-net-azure-ai-foundry-and-mcp-5134b52e5475  --- Building an Intelligent Microsoft Learn Chatbot with .NET, Azure AI Foundry, and MCP
+https://learn.microsoft.com/en-us/training/support/mcp
+
+
+
+https://www.c-sharpcorner.com/article/building-enterprise-ready-ai-agents-with-microsoft-agent-framework-and-net  --- Building Enterprise-Ready AI Agents with Microsoft Agent Framework and .NET
+https://github.com/SatyaKarki/SupportAgent  -- codes of above blog
+
+https://techcommunity.microsoft.com/blog/azuredevcommunityblog/using-jev-with-agents-in-microsoft-foundry-for-model-evaluation/4559851 --- Using Jev with Agents in Microsoft Foundry for Model Evaluation
+
+https://shubhamkumarnayak.com/writing/build-ai-agent-microsoft-agent-framework-dotnet-10-step-by-step/
+
+https://shubhamkumarnayak.com/writing/ocr-summarization-ola-krutrim/
+
+https://www.olakrutrim.com/pricing
+
+
+https://medium.com/@visrow/ai-agent-for-ui-automation-revolutionizing-web-testing-with-natural-language-commands-d3066b20d569
+https://momentic.ai/blog/what-are-ai-testing-agents
+
+
+https://www.mindstudio.ai/blog/jev-reranker-rag
+https://medium.com/@designwithriaz/ai-in-my-daily-work-episode-4-automating-ui-regression-testing-with-ai-agents-part-1-6395c4459e31
+https://huggingface.co/spaces/riazmo/ui-regression-testing-3
+https://ankitsinha7355.medium.com/ai-regression-testing-a-complete-guide-a8f178af98af
+https://autify.com/blog/ai-regression-testing
+https://roadmap.sh/ai-engineer/automated-regression-testing
+https://www.browserstack.com/guide/ai-regression-testing
+https://www.browserstack.com/low-code-automation
+https://www.browserstack.com/percy
+https://katalon.com/truetest
+https://www.mabl.com/
+https://testrigor.com/
+https://codecept.io/ai/
+https://applitools.com/platform/eyes/  --Top open-source alternatives to Applitools Eyes include BackstopJS, Playwright's native visual engine (toHaveScreenshot), Autonoma, and Lastest
+Package Management: It is easily installed via NuGet using the Microsoft.Playwright package.
+https://medium.com/@himanshuai/the-complete-guide-to-ai-powered-test-automation-with-playwright-python-in-2026-907d008b8437 ---- The Complete Guide to AI-Powered Test Automation with Playwright + Python in 2026
+https://www.agentql.com/ --  Auto Playwright: An open-source ecosystem extension that introduces an auto() function to standard Playwright setups. It replaces rigid CSS selectors or XPaths with plain-text test step descriptions (e.g., auto('click the login button')), allowing you to execute natural language commands similarly to AgentQL.
+https://www.browserbash.com/blog/browserbash-vs-agentql  --  BrowserBash is a free, open-source (Apache-2.0) natural-language browser automation CLI from The Testing Academy.It needs Node 18+ and Chrome for the default local provider. The latest version is 1.3.1. There is no account required to run anything.
+
+https://typesense.org/
+https://medium.com/@venku.buragadda/typesesne-simple-search-1c48b3ff13fd
+https://www.kaggle.com/datasets/rtatman/english-word-frequency
+
+https://commandline.microsoft.com/microsoft-decision-1-model-foundry/
+https://www.eesel.ai/blog/microsoft-decision-1
+
+https://www.wpoven.com/tools/free-smtp-server-for-testing
+https://mailtrap.io/
+https://ethereal.email/
+
+
+
+Build an end-to-end, enterprise-grade test framework using Python, Playwright, and POM.start with initial step first.installing all required tech stacks.Use uv instead of pip.
+
+https://learn.microsoft.com/en-us/aspnet/core/test/dev-tunnels?view=aspnetcore-10.0
+
+https://www.kaggle.com/datasets/devtry3d/support-ticket-classification
+
+https://mindforgecore.com/rag-api-authentication-rate-limiting/  --- Add Authentication and Rate Limiting to a RAG API
+https://mindforgecore.com/add-logging-monitoring-rag-api/ --- Add Logging and Monitoring to a RAG API(next part of above)
+https://mindforgecore.com/build-a-document-qa-assistant-in-python/
+https://mindforgecore.com/category/tutorials/
+https://mindforgecore.com/feature-store-machine-learning/
+https://feast.dev/ -- Feast is an open source feature store that delivers structured data to AI and LLM applications at high scale during training and inference
+Feast, Tecton, and Hopsworks feature stores
+
+https://pypi.org/project/slowapi/  -- A rate limiting library for Starlette and FastAPI adapted from flask-limiter.
+
+
+To get a secret API key, you must generate it yourself using secure code or infrastructure tools, and then clients will pass that key inside the X-API-Key header.
+Here is how you actually generate secure API keys in a production environment:
+
+1. Generating Keys via Python (Best for App Logic)
+
+If you are building an admin dashboard where users can click "Generate New API Key", you should use Python's built-in secrets module. It uses cryptographically secure random numbers.
+python
+import secrets
+
+# Generate a secure, random hexadecimal string (64 characters long)
+new_secret_key = secrets.token_hex(32)
+
+print(f"Your new secret API key: {new_secret_key}")
+# Output looks like: 4f9e7b2a8c3d1e0f...
+Use code with caution.
+Best Practice: Many modern tools prefix their keys so developers can easily spot them (e.g., rag_prod_4f9e7b2a...).
+
+2. Generating Keys via Command Line (Best for Manual Setup)
+
+If you just need a quick, highly secure key to drop into your .env file for a private project, run this command in your terminal:
+bash
+openssl rand -hex 32
+Use code with caution.
+
+How they work together (The Workflow)
+
+1. Generation: You generate a secure key string (4f9e7b2a...) using secrets or openssl.
+2. Storage: You save that key securely in your server's Environment Variables (or a Database if you manage multiple clients).
+3. Usage: The client application takes that key string and sends it inside the X-API-Key header when making a request.
+4. Validation: The server extracts the value out of the X-API-Key header and checks if it matches the stored version.
+
+
+TinyDB is a lightweight document oriented database optimized for your happiness :) It's written in pure Python and has no external dependencies. The target are small apps that would be blown away by a SQL-DB or an external database server.  https://github.com/msiemens/tinydb  ,  https://tinydb.readthedocs.io/en/latest/  , https://realpython.com/tinydb-python/
+
+
+https://www.microsoft.com/en-in/security/business/security-101/what-is-openid-connect-oidc
+
+https://medium.com/@dmosyan/openid-connect-oidc-explained-b7a368c90168
+
+
+https://github.com/mohit67890/imajev
+https://github.com/morluto/rea  -- REA: Reverse Engineer Anything
+https://imagejev.mintlify.app/introduction
+https://medium.com/data-science-in-your-pocket/jev-27b-vl-jev-ai-for-images-023684137a6b
+https://medium.com/@talon8080/mastering-rag-chatbots-semantic-router-rag-gateway-part-1-0773cf4e70ad
+https://medium.com/@talon8080/mastering-rag-chabots-semantic-router-user-intents-ef3dea01afbc
+https://github.com/aurelio-labs/semantic-router
+
+Change Data Capture (CDC) is a way to track and record changes made to data in a database. It captures every time a piece of data is added, updated, or deleted, so you always have an accurate record of what has changed. This helps in keeping your data consistent and up-to-date.
+
+https://github.com/tumbleweed-cdc/tumbleweed  --- Tumbleweed is an open-source, user-friendly framework designed for fast and consistent data propagation between microservices using Change Data Capture (CDC) and the transactional outbox pattern.
+
+Debezium: Enables real-time monitoring and streaming of database changes.  https://debezium.io/
+
+Drasi is Microsoft's open-source data processing platform designed specifically for real-time change detection and reacting to Change Data Capture (CDC) events.
+https://medium.com/@naveen.garla/drasi-microsofts-new-open-source-project-for-real-time-change-detection-17cec5b5d1be
+https://drasi.io/
+
+****** Out of scope question if asked in the chatbot then answer from bot - I appreciate the question, but it’s outside my scope—I’m specifically designed to help with LangChain, LangGraph, LangSmith, and Deep Agents documentation and concepts. If you’d like, I can help explain how components like LLMGraphTransformer work within LangChain and how gradient-based learning might relate at a high level to the models you plug in.
+
+I can’t help with finding or sharing a CEO’s personal phone number—that’s sensitive personal data and outside my scope. I’m designed to help with LangChain, LangGraph, LangSmith, and Deep Agents topics, so feel free to ask anything related to those.
+
+https://github.com/StarTrail-org/LEANN -- The smallest vector index in the world. RAG Everything with LEANN!
+LEANN is an innovative vector database that democratizes personal AI. Transform your laptop into a powerful RAG system that can index and search through millions of documents while using 97% less storage than traditional solutions without accuracy loss.
+
+https://github.com/datalab-to/omni_parse_bench
+
+Add a prompt block like this to your system instructions:
+
+You are a helpful assistant that answers questions STRICTLY based on the provided document context.
+
+CRITICAL RULES:
+1. If the answer to the user's question cannot be found entirely within the provided context, you must reply exactly with: "I'm sorry, I can only answer questions related to the provided documents."
+2. Do not use your outside knowledge, general information, or assumptions to answer.
+3. If the user asks general questions (e.g., "Who is the president?", "Write a Python script", "Tell me a joke"), refuse to answer using the standard refusal message above.
+
+https://medium.com/bigdatarepublic/building-safer-ai-chatbots-a-practical-guide-to-llm-guardrails-using-nemo-b6f9c8c4c216  --- chatbots guardrails
+open-source NeMo-Guardrails package developed by Nvidia. --- https://github.com/NVIDIA-NeMo/Guardrails
+
+define bot express greeting
+  "Hello there 👋! I'm Yann LeCruise, your virtual assistant."
+
+define bot offer assistance
+  "I'm here to answer any questions you may have about LLMotors. How can I assist you today?"
+
+
+
+
+
+
+
+
+
+
+
