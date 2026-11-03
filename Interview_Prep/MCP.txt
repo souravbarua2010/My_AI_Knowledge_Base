@@ -1,1 +1,91 @@
+Model context protocol (MCP) is a standardized interface and framework that allows AI models to seamlessly interact with external tools, resources, and environments.
+https://www.dailydoseofds.com/what-is-mcp/
+Without MCP, adding a new tool or integrating a new model was a headache.
+
+If you had three AI applications and three external tools, you might end up writing nine different integration modules (each AI x each tool) because there was no common standard. This doesn’t scale.
+
+Developers of AI apps were essentially reinventing the wheel each time, and tool providers had to support multiple incompatible APIs to reach different AI platforms.
+
+Essentially, if you have M different AI applications and N different tools/data sources, you could end up needing M × N custom integrations.
+
+The solution
+MCP tackles this by introducing a standard interface in the middle. Instead of M × N direct integrations, we get M + N implementations: each of the M AI applications implements the MCP client side once, and each of the N tools implements an MCP server once.
+
+Now everyone speaks the same “language”, so to speak, and a new pairing doesn’t require custom code since they already understand each other via MCP.
+
+MCP Architecture Overview
+
+At its heart, MCP follows a client-server architecture (much like the web or other network protocols).
+
+However, the terminology is tailored to the AI context. There are three main roles to understand: the Host, the Client, and the Server.
+
+Host
+The Host is the user-facing AI application, the environment where the AI model lives and interacts with the user.
+
+This could be a chat application (like OpenAI’s ChatGPT interface or Anthropic’s Claude desktop app), an AI-enhanced IDE (like Cursor), or any custom app that embeds an AI assistant like Chainlit.
+
+Host is the one that initiates connections to the available MCP servers when the system needs them. It captures the user's input, keeps the conversation history, and displays the model’s replies.
+
+Client
+The MCP Client is a component within the Host that handles the low-level communication with an MCP Server.
+
+Think of the Client as the adapter or messenger. While the Host decides what to do, the Client knows how to speak MCP to actually carry out those instructions with the server.
+
+Server
+The MCP Server is the external program or service that actually provides the capabilities (tools, data, etc.) to the application.
+
+An MCP Server can be thought of as a wrapper around some functionality, which exposes a set of actions or resources in a standardized way so that any MCP Client can invoke them.
+
+Servers can run locally on the same machine as the Host or remotely on some cloud service since MCP is designed to support both scenarios seamlessly. The key is that the Server advertises what it can do in a standard format (so the client can query and understand available tools) and will execute requests coming from the client, then return results.
+
+Tools, prompts and resources form the three core capabilities of the MCP framework. Capabilities are essentially the features or functions that the server makes available. 
+
+Tools: Executable actions or functions that the AI (host/client) can invoke (often with side effects or external API calls).
+Resources: Read-only data sources that the AI (host/client) can query for information (no side effects, just retrieval).
+Prompts: Predefined prompt templates or workflows that the server can supply.
+
+Tools
+Tools are what they sound like: functions that do something on behalf of the AI model. These are typically operations that can have effects or require computation beyond the AI’s own capabilities.
+
+Importantly, Tools are usually triggered by the AI model’s choice, which means the LLM (via the host) decides to call a tool when it determines it needs that functionality.
+
+Resources 
+Resources provide read-only data to the AI model.
+
+These are like databases or knowledge bases that the AI can query to get information, but not modify.
+
+Unlike tools, resources typically do not involve heavy computation or side effects, since they are often just information lookup.
+
+Another key difference is that resources are usually accessed under the host application’s control (not spontaneously by the model). In practice, this might mean the Host knows when to fetch a certain context for the model.
+
+For instance, if a user says, “Use the company handbook to answer my question,” the Host might call a resource that retrieves relevant handbook sections and feeds them to the model.
+
+Resources could include a local file’s contents, a snippet from a knowledge base or documentation, a database query result (read-only), or any static data like configuration info.
+
+Essentially, anything the AI might need to know as context. An AI research assistant could have resources like “ArXiv papers database,” where it can retrieve an abstract or reference when asked.
+
+Prompts
+Prompts in the MCP context are a special concept: they are predefined prompt templates or conversation flows that can be injected to guide the AI’s behavior.
+
+Essentially, a Prompt capability provides a canned set of instructions or an example dialogue that can help steer the model for certain tasks.
+
+But why have prompts as a capability?
+
+Think of recurring patterns: e.g., a prompt that sets up the system role as “You are a code reviewer,” and the user’s code is inserted for analysis.
+
+Rather than hardcoding that in the host application, the MCP server can supply it.
+
+Prompts can also represent multi-turn workflows.
+
+For instance, a prompt might define how to conduct a step-by-step diagnostic interview with a user. By exposing this via MCP, any client can retrieve and use these sophisticated prompts on demand.
+
+As far as control is concerned, Prompts are usually user-controlled or developer-controlled.
+
+The user might pick a prompt/template from a UI (e.g., “Summarize this document” template), which the host then fetches from the server.
+
+The model doesn’t spontaneously decide to use prompts the way it does tools.
+
+Rather, the prompt sets the stage before the model starts generating. In that sense, prompts are often fetched at the beginning of an interaction or when the user chooses a specific “mode”.
+
+
 
