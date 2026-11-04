@@ -1,0 +1,76 @@
+tests/test_ai_regression.py
+
+import json
+from pathlib import Path
+
+import pytest
+from playwright.sync_api import Page, expect
+
+from foundry_client import analyze_screenshot, generate_test_cases, get_client_and_models
+
+SCREENSHOTS = Path("screenshots")
+SCREENSHOTS.mkdir(exist_ok=True)
+
+TARGET_URL = "https://playwright.dev/"
+
+
+@pytest.fixture(scope="session")
+def foundry():
+    client, llm_id, vlm_id, manager, llm, vlm = get_client_and_models()
+    yield {
+        "client": client,
+        "llm_id": llm_id,
+        "vlm_id": vlm_id,
+        "manager": manager,
+        "llm": llm,
+        "vlm": vlm,
+    }
+    manager.stop_web_service()
+    for model in (llm, vlm):
+        if model.is_loaded:
+            model.unload()
+    manager.close()
+
+
+def test_llm_generates_login_regression_cases(foundry):
+    result = generate_test_cases(
+        foundry["client"],
+        foundry["llm_id"],
+        "A login page with email, password, sign-in button, error messages, and forgot-password link.",
+    )
+
+    assert "test_cases" in result
+    assert len(result["test_cases"]) > 0
+
+    output = {"llm_model": foundry["llm_id"], "result": result}
+    Path("reports").mkdir(exist_ok=True)
+    Path("reports/llm_test_cases.json").write_text(
+        json.dumps(output, indent=2), encoding="utf-8"
+    )
+
+
+def test_vlm_checks_playwright_homepage(page: Page, foundry):
+    page.goto(TARGET_URL)
+    page.screenshot(path=str(SCREENSHOTS / "home.png"), full_page=True)
+
+    result = analyze_screenshot(
+        foundry["client"],
+        foundry["vlm_id"],
+        SCREENSHOTS / "home.png",
+        """
+        - The page must load with visible content.
+        - The page must not show a browser error page.
+        - The page must contain navigation or documentation links.
+        """,
+    )
+
+    Path("reports").mkdir(exist_ok=True)
+    Path("reports/vlm_home_review.json").write_text(
+        json.dumps(result, indent=2), encoding="utf-8"
+    )
+
+    print("\nVLM result:", json.dumps(result, indent=2))
+
+    assert result.get("status") in ("pass", "fail")
+    if result.get("status") == "fail":
+        assert result.get("issues"), "VLM reported failure without listing issues."
