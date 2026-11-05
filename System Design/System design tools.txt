@@ -1,0 +1,174 @@
+1/ what is swagger in system design?
+
+
+Swagger is a tool used in system design and API development, primarily for documenting and exploring RESTful APIs. It's based on open-source software and is often used in conjunction with tools like Postman or the official Swagger UI.
+
+It uses a specification language (e.g., OpenAPI) to describe the structure of an API, including endpoints, parameters, responses, and security. This helps developers and testers understand and use the API more easily.
+
+Swagger is often used in system design to help with API planning, documentation, and testing. It provides an interactive way to explore and understand API behavior before implementation.
+
+
+
+2/ What is OpenAPI?
+
+• The Specification: OpenAPI (formally known as the OpenAPI Specification or OAS) is an open, vendor-neutral standard for describing HTTP RESTful APIs.
+• Machine & Human Readable: Written in JSON or YAML, it defines endpoints, request/response payloads, parameters, and authentication methods.
+• History: It started as the Swagger Specification (v2.0). In 2015, it was donated to the Linux Foundation and renamed OpenAPI.
+
+What is Swagger?
+
+• The Tooling Suite: Swagger refers to a set of open-source and commercial tools built around the OpenAPI Specification, maintained by SmartBear.
+• Key Swagger Tools:
+	• Swagger Editor: A browser-based tool to write and test OpenAPI definitions.
+	• Swagger UI: A tool that turns an OpenAPI file into interactive, visual documentation.
+	• Swagger Codegen: A tool that auto-generates server stubs and client SDK libraries from an OpenAPI file.
+
+
+Key Difference in a Nutshell
+
+• OpenAPI is the blueprint (the standard file format).
+• Swagger is a popular set of tools used to build, design, and display that blueprint.
+
+
+3/ What is k6 in system design?
+
+K6 is a popular open-source tool used in system design for load testing and performance testing. It is widely used by developers and DevOps engineers to simulate user traffic on web applications and services. K6 is known for its simplicity, ease of use, and ability to provide detailed insights into system performance under load.
+
+K6 is particularly useful in system design because it allows you to create realistic load scenarios, test the performance of web services, and validate the scalability of your application. It supports various scripting languages such as JavaScript and Go, and provides features like automated load testing, real-time monitoring, and performance dashboards.
+
+In system design, K6 can be used to validate and optimize the performance of web services and APIs. It helps identify bottlenecks and performance issues before deployment, allowing teams to improve application performance and reliability.
+
+Grafana k6 is an open-source, developer-centric load and performance testing tool used in system design to validate how software architectures, APIs, and microservices handle high-concurrency traffic
+
+
+Why k6 Matters in System Design
+
+• Traffic Simulation (Virtual Users): You write test scripts in JavaScript to mimic realistic user behavior (e.g., browsing products, logging in, or calling APIs) and scale them up to thousands of Virtual Users (VUs).
+• Testing Types: It helps evaluate different design constraints:
+	• Load Tests: Verify normal expected peak traffic.
+	• Stress Tests: Push the system past its breaking point to find maximum capacity.
+	• Spike Tests: Observe how the system reacts to sudden, massive surges (like a flash sale or viral event).
+	• Soak Tests: Run a steady load over a long period to uncover memory leaks or connection pool exhaustion.
+• Bottleneck Discovery: It measures response times, latency percentiles (p90, p95, p99), throughput (RPS), and error rates to expose slow database queries, lock contention, or network saturation before production.
+
+
+Core Architecture & Integration
+
+• Written in Go: The engine is highly efficient, allowing a single machine to generate massive amounts of load with low resource overhead.
+• Protocol Support: Out-of-the-box support for HTTP/1.1, HTTP/2, WebSockets, and gRPC.
+• CI/CD & Observability: Easily plugs into pipelines (GitHub Actions, GitLab CI) and streams metrics into backends like Grafana, Prometheus, or InfluxDB for real-time dashboards.
+
+https://www.youtube.com/watch?v=5EFN4BflLIg&t=170s
+
+
+ 4/ What is Prometheus in system design?
+
+Prometheus is an open-source monitoring and alerting tool used in system design for collecting, storing, and analyzing metrics from various systems. It's widely used in modern cloud and distributed environments for monitoring application performance, infrastructure, and services.
+
+Prometheus uses time-series databases to store metrics, and it includes a powerful query language called PromQL (Prometheus Query Language) for analyzing and visualizing data. It's often used in conjunction with Grafana for creating dashboards and alerts.
+
+In system design, Prometheus is used to monitor system performance, detect anomalies, and provide early warnings of potential issues. It helps in ensuring system reliability and availability by providing real-time insights into system health and performance.
+
+In system design, Prometheus is an open-source, metric-based monitoring and alerting system built for cloud-native infrastructure, microservices, and containerized environments like Kubernetes.
+
+
+Core Architecture & How It Works
+
+• Pull-Based Scraping: Unlike traditional systems where apps push data, Prometheus actively pulls (scrapes) metrics via HTTP GET requests from target endpoints (usually at /metrics) every few seconds.
+• Time-Series Database (TSDB): All collected metrics are stored locally as time-series data (keyed by metric name and key-value label dimensions) in an optimized high-performance disk TSDB.
+• Service Discovery: In dynamic environments (e.g., Kubernetes, AWS EC2, Consul), Prometheus automatically discovers new or dead targets without manual reconfigurations.
+• PromQL: A powerful functional Prometheus Query Language used to slice, dice, and aggregate multi-dimensional metrics in real time.
+• Alertmanager: When rules evaluate to true, Prometheus sends alerts to a separate Alertmanager service, which handles deduplication, grouping, and routing to tools like Slack or PagerDuty.
+• Visualization: Data is typically visualized by pairing Prometheus with Grafana via the HTTP query API.
+
+
+Key Metric Types
+
+1. Counter: A cumulative metric that only ever goes up or resets to zero (e.g., total HTTP requests).
+2. Gauge: A single numerical value that can arbitrarily go up or down (e.g., CPU load, memory usage).
+3. Histogram: Samples observations (like request durations) and counts them in configurable buckets.
+4. Summary: Similar to a histogram, it calculates configurable quantiles over a sliding time window on the client side.
+
+
+5/  What is Grafana in system design?
+Grafana is an open-source data visualization and monitoring tool used in system design to display and analyze metrics, logs, and other data from various systems. It's often used in conjunction with tools like Prometheus and Grafana's built-in dashboards to provide real-time insights into system performance.
+
+In system design, Grafana helps visualize data collected by tools like Prometheus, making it easier to monitor and manage systems. It provides interactive dashboards, alerts, and time-series visualizations that help in identifying performance issues and system trends.
+
+Grafana is widely used in DevOps and system monitoring to help teams monitor and improve the reliability and performance of their applications and infrastructure.
+
+Grafana is an open-source observability and data visualization platform that acts as the frontend layer in a system design architecture.
+
+
+What Grafana Does in System Design
+
+• Query & Visualize: It does not store metrics or logs natively; instead, it queries external data sources (like Prometheus, Elasticsearch, InfluxDB, or MySQL) on demand and renders them into interactive dashboards.
+• Unified Observability (The LGTM Stack): Grafana is commonly paired with the LGTM stack—Loki (logs), Grafana (visualization), Tempo (traces), and Mimir (metrics).
+• Alerting Engine: It allows SREs and platform engineers to define threshold-based or query-based alerting rules that route notifications to PagerDuty, Slack, or Webhooks.
+• Role-Based Access Control (RBAC): It manages multi-tenant and multi-team access for enterprise-grade observability infrastructure.
+
+
+Typical Architecture Placement
+
+1. Telemetry Generation: Microservices emit metrics (/metrics), logs, or traces.
+2. Collection & Ingestion: Tools like Grafana Alloy or Prometheus scrape or receive the telemetry.
+3. Storage/TSDB: Data is saved in time-series databases (Prometheus, Mimir), log stores (Elasticsearch, Loki), or tracing backends (Tempo).
+4. Visualization Layer: Grafana connects to these backends via data source plugins, transforming raw data frames into graphs, heatmaps, and single-stat panels.
+
+
+Learn more about building unified tracking dashboards via the Grafana OSS overview.
+
+
+6/  What is Elasticsearch in system design?
+Elasticsearch is a distributed search and analytics engine used in system design for fast data retrieval and real-time information processing. It's built on top of the Lucene search library and is widely used for full-text search, log analysis, and data visualization in modern applications.
+
+In system design, Elasticsearch is often used to store and search large volumes of data efficiently. It supports real-time indexing, query processing, and data analysis, making it ideal for use in applications such as log management, search engines, and analytics platforms.
+
+It's commonly used in system design to provide fast search capabilities and data processing for large-scale systems, and it's often paired with tools like Kibana for visualizing and managing data.
+
+Elasticsearch is a distributed, RESTful search and analytics engine built on top of the Apache Lucene library. In system design, it is primarily leveraged as a secondary search index to power complex, heavy-read workloads like full-text search, fuzzy matching, autocompletion, geospatial queries, and real-time log analytics.
+
+
+Core Architectural Concepts
+
+Understanding how Elasticsearch structures and distributes data is essential for justifying its inclusion in a system design interview:
+• Documents & Indices: Data is stored as JSON Documents (rows). A collection of documents sharing a similar schema is called an Index (table).
+• Inverted Index: Instead of searching row-by-row, Lucene builds a map of words (tokens) to their document locations. This allows for sub-millisecond keyword lookups.
+• Sharding & Replication: An index is split into Primary Shards to distribute the write/storage load across multiple Nodes (servers). Replica Shards copy the primary shards to provide high availability and scale read throughput.
+
+
+Common System Design Use Cases
+
+• E-Commerce Product Search: Handling advanced filtering, fuzzy matching ("did you mean?"), and typo tolerance.
+• Geospatial Applications: Powering ridesharing or food delivery apps by querying coordinates within a specific radius via specialized geospatial structures (geo_point and geo_shape).
+• Centralized Logging & Observability: Serving as the ingestion engine in the ELK Stack (Elasticsearch, Logstash, Kibana) to aggregate and visualize millions of microservice system logs in real time.
+
+7/ What is Kibana in system design?
+
+Kibana is a free and open-source data visualization and exploration dashboard software designed to work with Elasticsearch.
+
+
+Key Features
+
+• Data Visualization: Build interactive charts, graphs, heat maps, pie charts, and geospatial maps.
+• Canvas: Create live data presentation slide decks directly from Elasticsearch indices.
+• Observability & Security: Unite log analysis, system performance monitoring, and threat detection in a single interface.
+• AI & Machine Learning: Use natural language queries, anomaly detection, and semantic search integration.
+
+
+Core Ecosystem (ELK Stack)
+
+• Elasticsearch: The underlying document-oriented search and storage engine.
+• Logstash: A data processing pipeline that ingests and transforms logs before storage.
+• Kibana: The browser-based visual interface layer (default port 5601).
+
+https://www.tutorialspoint.com/kibana/index.htm
+
+
+
+
+
+
+
+
+
